@@ -1,0 +1,57 @@
+module natT
+
+import pair
+import bool
+
+data nat = O | S nat
+
+addp: pair nat nat -> nat
+addp (mkPair O m) = m
+addp (mkPair (S n) m) = S (addp (mkPair n m))
+
+multp: pair nat nat -> nat
+multp (mkPair O m) = O
+multp (mkPair m O) = O
+multp (mkPair (S n) m) = addp (mkPair m (multp (mkPair n m)))
+
+factp: nat -> nat
+factp O = (S O)
+factp (S n) = multp (mkPair (S n) (factp n))
+
+subp: pair nat nat -> nat
+subp (mkPair m O) = m
+subp (mkPair O m) = O
+subp (mkPair (S m) (S n)) = subp (mkPair m n)
+
+exp: pair nat nat -> nat
+exp (mkPair m O) = (S O)
+exp (mkPair m (S O)) = m
+exp (mkPair m (S n)) = multp (mkPair m (exp (mkPair m n)))
+
+lep: pair nat nat -> bool
+lep (mkPair O m) = true
+lep (mkPair m O) = false
+lep (mkPair (S n) (S m)) = lep (mkPair n m)
+
+eqp: pair nat nat -> bool
+eqp (mkPair O O) = true
+eqp (mkPair m O) = false
+eqp (mkPair O m) = false
+eqp (mkPair (S m) (S n)) = eqp (mkPair m n)
+
+gtp: pair nat nat -> bool
+gtp (mkPair m n) = not (lep (mkPair m n))
+
+gep: pair nat nat -> bool
+gep (mkPair O O) = true
+gep (mkPair m O) = true
+gep (mkPair O m) = false
+gep (mkPair (S m) (S n)) = gep (mkPair m n)
+
+ltp: pair nat nat -> bool
+ltp (mkPair m n) = not (gep (mkPair m n))
+
+fib: nat -> nat
+fib O = O
+fib (S O) = (S O)
+fib (S (S n)) = addp (mkPair (fib (S n)) (fib n))

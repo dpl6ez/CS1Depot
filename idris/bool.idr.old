@@ -1,0 +1,35 @@
+module bool
+import pair
+
+data bool = true | false
+
+-- Exam Problem #2: There are 16 possible ways to fill in the result column for a truth table for a binary Boolean function, and there are as such exactly 16 such functions, and no more
+
+id_bool: bool -> bool
+id_bool b = b
+
+constFalse: bool -> bool
+constFalse _ = false
+
+constTrue: bool -> bool
+constTrue _ = true
+
+not: bool -> bool
+not true = false
+not _ = true
+
+andp: pair bool bool -> bool
+andp (mkPair true true) = true
+andp (mkPair _ _) = false
+
+orp: pair bool bool -> bool
+orp (mkPair false false) = false
+orp (mkPair _ _) = true
+
+nandp: pair bool bool -> bool
+nandp (mkPair a b) = not(andp (mkPair a b))
+
+xorp: pair bool bool -> bool
+xorp (mkPair true false) = true
+xorp (mkPair false true) = true
+xorp (mkPair a b) = false
